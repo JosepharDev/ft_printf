@@ -7,7 +7,8 @@
 
 size_t	ft_putnbr(int n);
 int		ft_putstr(char *str);
-void	ft_putchar(char c);
+int		ft_putchar(char c);
 int		ft_strlen(char *str);
+int		ft_puthx(int n, char a);
 
 #endif

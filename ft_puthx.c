@@ -28,11 +28,3 @@ int	ft_puthx(int n, char a)
 	return (i);
 }
 
-int main()
-{
-	int c = ft_puthx(123, 'x');
-	printf("\n");
-	int b = printf("%x\n", 123);
-
-printf("c = %d  b = %d", c, b);
-}

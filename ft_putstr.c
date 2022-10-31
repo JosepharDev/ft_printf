@@ -6,7 +6,7 @@ int	ft_putstr(char *str)
 	i = 0;
 	while(str[i])
 	{
-		ft_putchar(str[i]);
+		ft_putchar(str[i++]);
 	}
 	return (i);
 }
