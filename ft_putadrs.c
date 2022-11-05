@@ -1,21 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putchar.c                                       :+:      :+:    :+:   */
+/*   ft_putadrs.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoyahya <yoyahya@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/01 08:57:02 by yoyahya           #+#    #+#             */
-/*   Updated: 2022/11/04 12:11:33 by yoyahya          ###   ########.fr       */
+/*   Created: 2022/11/01 09:06:00 by yoyahya           #+#    #+#             */
+/*   Updated: 2022/11/03 13:58:06 by yoyahya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_putchar(char c, int *len)
+static int	ft_puthxadrs(unsigned long int n, int *len)
 {
-	if (write(1, &c, 1) < 0)
+	int	err;
+
+	err = 0;
+	if (n >= 16)
+	{
+		if (ft_puthxadrs(n / 16, len) < 0)
+			return (-1);
+	}
+	if (ft_putchar("0123456789abcdef"[n % 16], len) < 0)
 		return (-1);
-	(*len)++;
-	return (0);
+	return (err);
+}
+
+int	ft_putadrs(void *add, int *len)
+{
+	int					err;
+	unsigned long int	n;
+
+	err = 0;
+	n = (unsigned long int)add;
+	if (ft_putstr("0x", len) < 0)
+		return (-1);
+	if (ft_puthxadrs(n, len) < 0)
+		return (-1);
+	return (err);
 }

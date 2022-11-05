@@ -1,30 +1,31 @@
-#include "printf.h"
-int ft_count(int n)
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_puthx.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yoyahya <yoyahya@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/01 08:57:14 by yoyahya           #+#    #+#             */
+/*   Updated: 2022/11/04 18:38:36 by yoyahya          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "ft_printf.h"
+
+int	ft_puthx(unsigned int n, char a, int *len)
 {
-	int i = 0;
-	while(n)
-	{
-		n = n / 10;
-		i++;
-	}
-	return (i);
-}
-int	ft_puthx(int n, char a)
-{
-	int i;
-	i = ft_count(n);
-    if (n >= 16)
-	{
-        ft_puthx(n / 16, a);
-	}
+	if (n >= 16)
+		if (ft_puthx(n / 16, a, len) < 0)
+			return (-1);
 	if (a == 'x')
 	{
-        ft_putchar("0123456789abcdef"[n % 16]);
+		if (ft_putchar("0123456789abcdef"[n % 16], len) < 0)
+			return (-1);
 	}
-    else if (a == 'X')
+	else if (a == 'X')
 	{
-        ft_putchar("0123456789ABCDEF"[n % 16]);
+		if (ft_putchar("0123456789ABCDEF"[n % 16], len) < 0)
+			return (-1);
 	}
-	return (i);
+	return (0);
 }
-

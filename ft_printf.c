@@ -1,45 +1,69 @@
-#include "printf.h"
-int ft_printf(char *str, ...)
-{
-	int i = 0;
-	int count = 0;
-	int len = ft_strlen(str);
-	va_list args;
-	va_start (args, str);
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yoyahya <yoyahya@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/01 08:57:11 by yoyahya           #+#    #+#             */
+/*   Updated: 2022/11/05 11:33:35 by yoyahya          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-	while(str[i])
+#include "ft_printf.h"
+
+static int	ft_check_conve(va_list args, char fmt, int *len)
+{
+	int	err;
+
+	err = 0;
+	if (fmt == 'd' || fmt == 'i')
+		err = ft_putnbr(va_arg(args, int), len);
+	else if (fmt == 'u')
+		err = ft_putnbr_un(va_arg(args, unsigned int), len);
+	else if (fmt == 'c')
+		err = ft_putchar(va_arg(args, int), len);
+	else if (fmt == 's')
+		err = ft_putstr(va_arg(args, char *), len);
+	else if (fmt == '%')
+		err = ft_putchar(fmt, len);
+	else if (fmt == 'x')
+		err = ft_puthx(va_arg(args, int), fmt, len);
+	else if (fmt == 'X')
+		err = ft_puthx(va_arg(args, int), fmt, len);
+	else if (fmt == 'p')
+		err = ft_putadrs(va_arg(args, void *), len);
+	else if (fmt == '\0')
+		return (err);
+	else
+		err = ft_putchar(fmt, len);
+	return (err);
+}
+
+int	ft_printf(const char *str, ...)
+{
+	va_list	args;
+	int		len;
+	int		err;
+
+	len = 0;
+	err = 0;
+	va_start(args, str);
+	while (*str)
 	{
-		while(str[i] != '%' && str[i])
-			count += ft_putchar(str[i++]);
-		if(str[i + 1] == 'd')
+		if (*str == '%')
 		{
-			count += ft_putnbr(va_arg(args, int));
-			i++;
+			str++;
+			if (ft_check_conve(args, *str, &len) < 0)
+				return (-1);
 		}
-		else if(str[i] == '%' && str[i + 1] == 'c')
-		{
-			count+=ft_putchar(va_arg(args, int));
-			i++;
-		}
-		else if(str[i] == '%' && str[i + 1] == 'x')
-		{
-			count += ft_puthx(va_arg(args, int), str[i + 1]);
-			i++;
-		}
-		else if(str[i] == '%' && str[i + 1] == 's')
-			{
-				count += ft_putstr(va_arg(args, char *));
-				i++;
-			}
-	i++;
+		else
+			if (ft_putchar(*str, &len) < 0)
+				return (-1);
+		if (!*str)
+			break ;
+		str++;
 	}
 	va_end(args);
-	return (count);
-} 
-#include <stdio.h>
-int main()
-{
-	char s[10] = "hello";
-	printf("  %d\n  ", ft_printf("hello %d %c jj %x %s", 123, 'h', 10, s));
-	printf("  %d\n  ", printf("hello %d %c jj %x %s", 123, 'h', 10, s));
+	return (len);
 }

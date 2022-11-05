@@ -1,21 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putchar.c                                       :+:      :+:    :+:   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoyahya <yoyahya@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/01 08:57:02 by yoyahya           #+#    #+#             */
-/*   Updated: 2022/11/04 12:11:33 by yoyahya          ###   ########.fr       */
+/*   Created: 2022/11/01 08:57:07 by yoyahya           #+#    #+#             */
+/*   Updated: 2022/11/03 17:53:22 by yoyahya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#ifndef FT_PRINTF_H
+# define FT_PRINTF_H
 
-int	ft_putchar(char c, int *len)
-{
-	if (write(1, &c, 1) < 0)
-		return (-1);
-	(*len)++;
-	return (0);
-}
+# include <stdarg.h>
+# include <stdio.h>
+# include <unistd.h>
+
+int	ft_printf(const char *str, ...);
+int	ft_putnbr(int n, int *len);
+int	ft_putnbr_un(unsigned int nbr, int *len);
+int	ft_putstr(char *str, int *len);
+int	ft_putchar(char c, int *len);
+int	ft_puthx(unsigned int n, char a, int *len);
+int	ft_putadrs(void *add, int *len);
+
+#endif
